@@ -48,7 +48,9 @@ De volledig synthetische data bevatten cliëntprofielen, scenario’s en automat
 
 De dataset is onderdeel van mijn leerproces. Verbeteringen en uitbreidingen zijn in de toekomst mogelijk.
 
-gardenia:v1.0 april 2025
+gardenia:v1.0-apr2025
+
+https://github.com/ekrombouts/GardeniaApp
             """
         )
 

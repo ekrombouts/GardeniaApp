@@ -1,6 +1,6 @@
 services:
   app:
-    container_name: gardenia-app-container
+    container_name: ${CONTAINER_NAME}
     image: ${IMAGE_NAME}
     build: .
     ports:
@@ -20,7 +20,7 @@ services:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
     ports:
-      - "${DB_PORT}:5432"
+      - "5432:5432"
   
     volumes:
       - gardenia_data:/var/lib/postgresql/data
