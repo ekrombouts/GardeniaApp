@@ -1,0 +1,7 @@
+streamlit
+watchdog
+psycopg2-binary
+sqlalchemy
+pandas
+dotenv
+pydantic_settings

@@ -1,0 +1,11 @@
+streamlit
+watchdog
+psycopg2-binary
+sqlalchemy
+pandas
+dotenv
+pytest 
+pytest-html
+datasets
+openai
+sentence_transformers

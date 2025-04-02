@@ -1,0 +1,11 @@
+DB_HOST=localhost
+DB_NAME=gardenia
+DB_USER=gardenia
+DB_PASSWORD=secret # Replace with your actual password
+DB_PORT=5432
+
+AZURE_OPENAI_API_KEY=
+AZURE_OPENAI_ENDPOINT=
+
+OPENAI_API_KEY=
+ANTHROPIC_API_KEY=
