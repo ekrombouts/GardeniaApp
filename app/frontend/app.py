@@ -47,6 +47,8 @@ def main():
 De volledig synthetische data bevatten cliëntprofielen, scenario’s en automatisch gegenereerde zorgrapportages. Ze bieden een veilige testomgeving voor AI in de langdurige zorg.
 
 De dataset is onderdeel van mijn leerproces. Verbeteringen en uitbreidingen zijn in de toekomst mogelijk.
+
+gardenia:v1.0 april 2025
             """
         )
 

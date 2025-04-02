@@ -34,5 +34,3 @@ python scripts/populate_db/02_upsert_embeddings.py
 Your database should now be populated and ready for use.
 
 ---
-
-Thank you for contributing to the Gardenia App!
