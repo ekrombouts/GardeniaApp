@@ -4,6 +4,7 @@
 RESOURCE_GROUP="rg-gardenia-app"
 KEYVAULT_NAME="kv-gardenia"
 IMAGE_NAME="gardenia:v1.0-local"
+CONTAINER_NAME=gardenia-app-v1.0
 DB_HOST="gardenia-db-container"
 DB_NAME="gardenia"
 DB_USER="gardenia"
@@ -15,9 +16,9 @@ DB_PASSWORD=$(az keyvault secret show --vault-name $KEYVAULT_NAME --name DB-PASS
 
 docker-compose down --remove-orphans
 docker system prune -af
-export IMAGE_NAME DB_HOST DB_NAME DB_USER DB_PORT DB_PASSWORD APP_PORT
+export IMAGE_NAME DB_HOST DB_NAME DB_USER DB_PORT DB_PASSWORD APP_PORT CONTAINER_NAME
 docker-compose build --no-cache
 docker-compose up -d
 
 echo "Je Gardenia app is lokaal beschikbaar op:"
-echo "http://localhost:8501"
+echo "http://localhost:$APP_PORT"
