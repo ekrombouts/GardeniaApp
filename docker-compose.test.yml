@@ -1,0 +1,19 @@
+services:
+  app-test:
+    container_name: gardenia-app-v1.1-test
+    image: gardenia:v1.1-test
+    build: .
+    ports:
+      - 8502:8501
+    environment:
+      - DB_USER=gardenia
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=gardenia-db-container
+      - DB_PORT=5432
+      - DB_NAME=gardenia
+    networks:
+      - gardenia-net
+
+networks:
+  gardenia-net:
+    external: true
