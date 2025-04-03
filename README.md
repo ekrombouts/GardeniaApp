@@ -1,20 +1,43 @@
 # Gardenia App
 
-Welcome to the Gardenia App! This project is currently under construction.
+## Gardenia Docker Setup
 
-## Getting Started
+This setup runs a PostgreSQL database and two versions of the Gardenia app (prod and test) in separate containers, connected via a shared network.
 
-Follow the steps below to set up and populate the database with test data.
+### 1. Preparation
 
-### 1. Deploy Locally
-
-Run the following script to deploy the application locally:
+Create the shared network (one-time setup):
 
 ```bash
-source docker/deploy_local.sh
+docker network create gardenia-net
 ```
 
-### 2. Install Dependencies
+### 2. Start the Database
+
+Start the database container:
+
+```bash
+docker-compose -f docker-compose.db.yml -p gardenia-db up -d
+```
+
+This ensures:  
+    • Container: gardenia-db-container  
+    • Volume: gardenia-db_gardenia_data  
+    • Network: gardenia-net (external)  
+
+### 3. Start Production and Test Apps
+
+Start the production and test app containers:
+
+```bash
+docker-compose -f docker-compose.prod.yml -p gardenia-prod up -d --build
+docker-compose -f docker-compose.test.yml -p gardenia-test up -d --build
+```  
+
+    • Port: 8501 for production, 8502 for test  
+    • Network: gardenia-net  
+
+### 4. Install Dependencies
 
 Install the required dependencies for development:
 
@@ -22,7 +45,7 @@ Install the required dependencies for development:
 pip install -r requirements-dev.txt
 ```
 
-### 3. Populate the Database
+### 5. Populate the Database
 
 Populate the database with test data by running the following scripts:
 
@@ -32,5 +55,3 @@ python scripts/populate_db/02_upsert_embeddings.py
 ```
 
 Your database should now be populated and ready for use.
-
----
