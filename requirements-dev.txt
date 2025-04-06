@@ -9,3 +9,6 @@ pytest-html
 datasets
 openai
 sentence_transformers
+scikit-learn
+umap-learn
+plotly
