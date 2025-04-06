@@ -36,3 +36,9 @@ out/
 
 .venv/
 zzz/
+models/
+output/
+
+# Python cache
+__pycache__/
+*.py[cod]
