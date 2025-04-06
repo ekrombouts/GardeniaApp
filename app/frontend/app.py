@@ -17,7 +17,7 @@ def main():
         layout="centered",
         initial_sidebar_state="auto",
     )
-    st.title("🌷 Gardenia Dashboard-dev 🌷")
+    st.title("🌷 Gardenia Dashboard 🌷")
 
     # Display a loading spinner while fetching data
     with st.spinner("Loading data..."):
@@ -64,7 +64,7 @@ De volledig synthetische data bevatten cliëntprofielen, scenario’s en automat
 
 De dataset is onderdeel van mijn leerproces. Verbeteringen en uitbreidingen zijn in de toekomst mogelijk.
 
-gardenia:v1.2-test April 2025: Added visualization tab with embedding plot.
+gardenia:v1.1 April 2025: Added visualization tab with embedding plot.
 
 https://github.com/ekrombouts/GardeniaApp
             """
