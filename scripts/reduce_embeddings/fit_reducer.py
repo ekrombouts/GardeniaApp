@@ -13,7 +13,7 @@ from umap import UMAP
 engine: Engine = Database().get_engine()
 
 root = Path(__file__).resolve().parents[2]
-model_folder = Path("backend") / "models"
+model_folder = root / "app" / "backend" / "models"
 plot_folder = root / "output"
 
 
@@ -56,6 +56,7 @@ def main() -> None:
         random_state=random_state,
         n_neighbors=n_neighbors,
         min_dist=min_dist,
+        n_jobs=1,  # Prevents UMAP from using multiple threads that can cause crashes in Docker
     )
 
     df["embedding"] = df["embedding"].apply(ast.literal_eval)
