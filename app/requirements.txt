@@ -5,5 +5,7 @@ sqlalchemy
 pandas
 dotenv
 pydantic_settings
+--no-binary=umap-learn
 umap-learn
 plotly
+joblib
