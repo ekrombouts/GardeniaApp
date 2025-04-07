@@ -9,3 +9,7 @@ pydantic_settings
 umap-learn
 plotly
 joblib
+instructor
+anthropic
+openai
+sentence-transformers
