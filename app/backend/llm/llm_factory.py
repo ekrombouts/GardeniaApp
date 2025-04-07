@@ -3,10 +3,9 @@ from typing import Any, Dict, List, Tuple, Type
 
 import instructor
 from anthropic import Anthropic
+from backend.config.settings import get_settings
 from openai import AzureOpenAI, OpenAI
 from pydantic import BaseModel
-
-from config.settings import get_settings
 
 """
 LLM Provider Factory Module
