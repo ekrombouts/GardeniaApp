@@ -3,11 +3,14 @@ from enum import Enum
 from typing import Any, Dict, List, Tuple
 
 import pandas as pd
+from backend.config.settings import get_settings
 from backend.database.db_connection import Database
 from backend.llm.embedding_factory import EmbeddingFactory
 from backend.llm.llm_factory import LLMFactory
 from pydantic import BaseModel, Field
 from sqlalchemy import text
+
+settings = get_settings()
 
 
 class LLMResponse(BaseModel):
@@ -45,15 +48,17 @@ class FallRiskAnalyzer:
         self.context = pd.DataFrame()
 
     def _get_query_embedding(self, query: str) -> List[float]:
-        embedder = EmbeddingFactory(provider="sentence_transformer")
+        embedder = EmbeddingFactory(provider="azureopenai")
         return embedder.create_embeddings([query])[0]
 
     def _get_context(self, query_vector: List[float]) -> pd.DataFrame:
         engine = Database().get_engine()
         vector_str = f"ARRAY{query_vector}::vector"
 
+        embedding_column = settings.llm.azureopenai.embedding_column
+
         sql = text(
-            f"""SELECT r.client_id, name, ward, datetime, note as content, nfi_embedding <-> {vector_str} AS distance
+            f"""SELECT r.client_id, name, ward, datetime, note as content, {embedding_column} <-> {vector_str} AS distance
             FROM records r
             LEFT JOIN clients c ON r.client_id = c.client_id
             WHERE r.client_id = :client_id

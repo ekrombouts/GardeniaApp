@@ -12,7 +12,23 @@ Create the shared network (one-time setup):
 docker network create gardenia-net
 ```
 
-### 2. Start the Database
+### 2. Set Secret Parameters
+
+Before populating the database, ensure you set the required secret parameters. 
+
+```bash
+export DB_PASSWORD=your_password_here
+
+export OPENAI_API_KEY=your_key_here
+export AZURE_OPENAI_API_KEY=your_key_here
+export AZURE_OPENAI_ENDPOINT=your_endpoint_here
+export ANTHROPIC_API_KEY=
+```
+
+Replace `your_password_here` with the actual database password.  
+Fill in either OPENAI_API_KEY, ANTHROPIC_API_KEY or AZURE_OPENAI_API_KEY + AZURE_OPENAI_ENDPOINT.
+
+### 3. Start the Database
 
 Start the database container:
 
@@ -25,9 +41,9 @@ This ensures:
     • Volume: gardenia-db_gardenia_data  
     • Network: gardenia-net (external)  
 
-### 3. Start Production and Test Apps
+### 4. Start Production and Test Apps
 
-Start the production and test app containers:
+Start the production and/or test app containers:
 
 ```bash
 docker-compose -f docker-compose.prod.yml -p gardenia-prod up -d --build
@@ -37,7 +53,7 @@ docker-compose -f docker-compose.test.yml -p gardenia-test up -d --build
     • Port: 8501 for production, 8502 for test  
     • Network: gardenia-net  
 
-### 4. Install Dependencies
+### 5. Install Dependencies
 
 Install the required dependencies for development:
 
@@ -45,7 +61,7 @@ Install the required dependencies for development:
 pip install -r requirements-dev.txt
 ```
 
-### 5. Populate the Database
+### 6. Populate the Database
 
 Populate the database with test data by running the following scripts:
 
@@ -55,3 +71,7 @@ python scripts/populate_db/02_upsert_embeddings.py
 ```
 
 Your database should now be populated and ready for use.
+
+### 6. Check llm-Settings
+
+Change app/backend/config/llm_config.py as desired.

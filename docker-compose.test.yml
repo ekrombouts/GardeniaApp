@@ -11,6 +11,8 @@ services:
       - DB_HOST=gardenia-db-container
       - DB_PORT=5432
       - DB_NAME=gardenia
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT}
     networks:
       - gardenia-net
 

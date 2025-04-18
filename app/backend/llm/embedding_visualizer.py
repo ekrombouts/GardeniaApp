@@ -3,7 +3,6 @@ import base64
 import numpy as np
 import pandas as pd
 import plotly.express as px
-import plotly.io as pio
 
 
 def encode_image(image_path):
@@ -98,7 +97,7 @@ def plot_client_embeddings(df_plot, background_image_path):
         x="x",
         y="y",
         hover_data={"text": True, "datetime": True},
-        title=f"Reports of {df_plot['name'].iloc[0]}",
+        title=f"Rapportages van {df_plot['name'].iloc[0]}",
         animation_frame="time_diff",
         animation_group="text",
         labels={"time_diff": "Time (days)"},

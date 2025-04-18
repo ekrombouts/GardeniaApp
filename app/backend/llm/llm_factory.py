@@ -2,9 +2,8 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Tuple, Type
 
 import instructor
-from anthropic import Anthropic
 from backend.config.settings import get_settings
-from openai import AzureOpenAI, OpenAI
+from openai import AzureOpenAI
 from pydantic import BaseModel
 
 """
@@ -32,30 +31,6 @@ class LLMProvider(ABC):
         pass
 
 
-class OpenAIProvider(LLMProvider):
-    """OpenAI provider implementation."""
-
-    def __init__(self, settings):
-        self.settings = settings
-        self.client = self._initialize_client()
-
-    def _initialize_client(self) -> Any:
-        return instructor.from_openai(OpenAI(api_key=self.settings.api_key))
-
-    def create_completion(
-        self, response_model: Type[BaseModel], messages: List[Dict[str, str]], **kwargs
-    ) -> Tuple[BaseModel, Any]:
-        completion_params = {
-            "model": kwargs.get("model", self.settings.default_model),
-            "temperature": kwargs.get("temperature", self.settings.temperature),
-            "max_retries": kwargs.get("max_retries", self.settings.max_retries),
-            "max_tokens": kwargs.get("max_tokens", self.settings.max_tokens),
-            "response_model": response_model,
-            "messages": messages,
-        }
-        return self.client.chat.completions.create_with_completion(**completion_params)
-
-
 class AzureOpenAIProvider(LLMProvider):
     """AzureOpenAI provider implementation."""
 
@@ -75,65 +50,6 @@ class AzureOpenAIProvider(LLMProvider):
     def create_completion(
         self, response_model: Type[BaseModel], messages: List[Dict[str, str]], **kwargs
     ) -> Tuple[BaseModel, Any]:
-        completion_params = {
-            "model": kwargs.get("model", self.settings.default_model),
-            "temperature": kwargs.get("temperature", self.settings.temperature),
-            "max_retries": kwargs.get("max_retries", self.settings.max_retries),
-            "max_tokens": kwargs.get("max_tokens", self.settings.max_tokens),
-            "response_model": response_model,
-            "messages": messages,
-        }
-        return self.client.chat.completions.create_with_completion(**completion_params)
-
-
-class AnthropicProvider(LLMProvider):
-    """Anthropic provider implementation."""
-
-    def __init__(self, settings):
-        self.settings = settings
-        self.client = self._initialize_client()
-
-    def _initialize_client(self) -> Any:
-        return instructor.from_anthropic(Anthropic(api_key=self.settings.api_key))
-
-    def create_completion(
-        self, response_model: Type[BaseModel], messages: List[Dict[str, str]], **kwargs
-    ) -> Any:
-        system_message = next(
-            (m["content"] for m in messages if m["role"] == "system"), None
-        )
-        user_messages = [m for m in messages if m["role"] != "system"]
-
-        completion_params = {
-            "model": kwargs.get("model", self.settings.default_model),
-            "temperature": kwargs.get("temperature", self.settings.temperature),
-            "max_retries": kwargs.get("max_retries", self.settings.max_retries),
-            "max_tokens": kwargs.get("max_tokens", self.settings.max_tokens),
-            "response_model": response_model,
-            "messages": user_messages,
-        }
-        if system_message:
-            completion_params["system"] = system_message
-
-        return self.client.messages.create_with_completion(**completion_params)
-
-
-class LlamaProvider(LLMProvider):
-    """Llama provider implementation."""
-
-    def __init__(self, settings):
-        self.settings = settings
-        self.client = self._initialize_client()
-
-    def _initialize_client(self) -> Any:
-        return instructor.from_openai(
-            OpenAI(base_url=self.settings.base_url, api_key=self.settings.api_key),
-            mode=instructor.Mode.JSON,
-        )
-
-    def create_completion(
-        self, response_model: Type[BaseModel], messages: List[Dict[str, str]], **kwargs
-    ) -> Any:
         completion_params = {
             "model": kwargs.get("model", self.settings.default_model),
             "temperature": kwargs.get("temperature", self.settings.temperature),
@@ -167,9 +83,6 @@ class LLMFactory:
 
     def _create_provider(self) -> LLMProvider:
         providers = {
-            "openai": OpenAIProvider,
-            "anthropic": AnthropicProvider,
-            "llama": LlamaProvider,
             "azureopenai": AzureOpenAIProvider,
         }
         provider_class = providers.get(self.provider)
@@ -211,7 +124,7 @@ if __name__ == "__main__":
         message: str
 
     # Initialize the factory with the desired provider
-    provider_name = "llama"  # Change to "anthropic" or "llama" as needed
+    provider_name = "azureopenai"  # Change to "anthropic" or "llama" as needed
     factory = LLMFactory(provider=provider_name)
 
     # Define the input messages
@@ -225,7 +138,7 @@ if __name__ == "__main__":
         response_model, raw_response = factory.create_completion(
             response_model=ExampleResponseModel,
             messages=messages,
-            model="phi4:latest",
+            # model="phi4:latest",
             temperature=0.7,
             max_tokens=100,
         )

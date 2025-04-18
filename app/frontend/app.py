@@ -17,7 +17,7 @@ def main():
         layout="centered",
         initial_sidebar_state="auto",
     )
-    st.title("🌷 Gardenia Dashboard - Dev 🌷")
+    st.title("🌷 Gardenia Dashboard 🌷")
 
     with st.spinner("Loading data..."):
         clients_df = GardeniaClients().clients
@@ -52,10 +52,12 @@ def main():
         display_reports(gardenia_client, selected_start_date, selected_end_date)
 
     with tab4:
-        display_client_embedding_plot(client_id)
+        if st.button("📊 Toon embedding plot"):
+            display_client_embedding_plot(client_id)
 
     with tab5:
-        display_fall_risk(gardenia_client, selected_start_date, selected_end_date)
+        if st.button("⚠️ Start valrisico-analyse"):
+            display_fall_risk(gardenia_client, selected_start_date, selected_end_date)
 
     with tab6:
         st.subheader("ℹ️ Informatie")
@@ -66,9 +68,9 @@ De volledig synthetische data bevatten cliëntprofielen, scenario’s en automat
 
 De app en dataset vormen onderdeel van mijn leerproces. De code kan rommelig zijn en commentaar is niet altijd netjes, aanwezig of in de juiste taal. 
 
-gardenia:
-v1.1 April 2025: Added visualization tab with embedding plot.
-v1.2 April 2025: Added fall risk analysis.
+gardenia:  
+v1.1 April 2025: Added visualization tab with embedding plot.  
+v1.2 April 2025: Added fall risk analysis.  
 
 https://github.com/ekrombouts/GardeniaApp
             """
@@ -79,11 +81,11 @@ def select_client(clients_df):
     col1, col2 = st.columns(2)
     with col1:
         selected_ward = st.selectbox(
-            "Selecteer een afdeling:", options=clients_df["ward"].unique()
+            "Selecteer afdeling:", options=clients_df["ward"].unique()
         )
     with col2:
         client_id = st.selectbox(
-            "Selecteer een cliënt:",
+            "Selecteer cliënt:",
             options=clients_df[clients_df["ward"] == selected_ward]["client_id"],
             format_func=lambda x: clients_df[clients_df["client_id"] == x][
                 "name"
@@ -159,7 +161,6 @@ def select_date_range_sidebar(client_records):
 
 
 def display_client_embedding_plot(client_id):
-    st.subheader("📊 Embedding Plot")
     with st.spinner("Genereren van de embedding plot..."):
         html_path = create_client_embedding_plot(client_id)
         with open(html_path, "r", encoding="utf-8") as f:
@@ -179,7 +180,7 @@ def display_fall_risk(gardenia_client, selected_start_date, selected_end_date):
             result = fra.analyze()
 
         # Belangrijkste uitkomst
-        st.markdown(f"### ⚠️ Valrisico: {result.valrisico.value}")
+        st.markdown(f"### Valrisico: {result.valrisico.value}")
         st.markdown(
             f"### Valincident: {'Ja' if result.valincident else 'Nee'} (Laatste incident: {result.datum_laatste_valincident})"
         )

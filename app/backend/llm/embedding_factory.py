@@ -103,7 +103,8 @@ class EmbeddingFactory:
 
     def _create_provider(self) -> EmbeddingProvider:
         providers = {
-            "openai": OpenAIEmbedder,
+            ## Comment or uncomment the providers you want to use
+            # "openai": OpenAIEmbedder,
             "azureopenai": AzureOpenAIEmbedder,
             "sentence_transformer": SentenceTransformerEmbedder,
         }
